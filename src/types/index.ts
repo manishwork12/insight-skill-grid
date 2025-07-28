@@ -8,6 +8,7 @@ export interface User {
   avatar?: string;
   department?: string;
   experience?: number;
+  password?: string; // For user creation only
 }
 
 export interface Employee extends User {

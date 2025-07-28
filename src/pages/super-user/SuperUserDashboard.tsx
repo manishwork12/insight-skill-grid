@@ -36,10 +36,10 @@ export default function SuperUserDashboard() {
   };
 
   const handleAddUser = () => {
-    if (!newUser.name || !newUser.email || !newUser.role) {
+    if (!newUser.name || !newUser.email || !newUser.role || !newUser.password) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields",
+        description: "Please fill in all required fields including password",
         variant: "destructive",
       });
       return;
@@ -220,6 +220,17 @@ export default function SuperUserDashboard() {
                           type="number"
                           value={newUser.experience || ''}
                           onChange={(e) => setNewUser({ ...newUser, experience: parseInt(e.target.value) || 0 })}
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="password" className="text-right">Password</Label>
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="Enter initial password"
+                          value={newUser.password || ''}
+                          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                           className="col-span-3"
                         />
                       </div>

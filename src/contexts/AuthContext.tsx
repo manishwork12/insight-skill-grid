@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, UserRole } from '@/types';
+import { apiService } from '@/services/apiService';
 
 interface AuthContextType {
   user: User | null;
@@ -64,12 +65,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Mock authentication
-    const foundUser = mockUsers.find(u => u.email === email);
-    if (foundUser && password === 'password123') {
-      setUser(foundUser);
-      localStorage.setItem('currentUser', JSON.stringify(foundUser));
-      return true;
+    // Use API service for authentication
+    try {
+      const { success, user, token } = await apiService.login(email, password);
+      if (success && user) {
+        setUser(user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        if (token) {
+          localStorage.setItem('authToken', token);
+        }
+        return true;
+      }
+    } catch (error) {
+      console.error('Login error:', error);
     }
     return false;
   };
@@ -77,6 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
   };
 
   return (

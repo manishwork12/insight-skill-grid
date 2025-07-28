@@ -118,6 +118,7 @@ export default function LoginPage() {
                 <p><strong>Employee:</strong> john.employee@company.com</p>
                 <p><strong>Trainer:</strong> sarah.trainer@company.com</p>
                 <p><strong>Manager:</strong> mike.manager@company.com</p>
+                <p><strong>Super User:</strong> admin@company.com</p>
                 <p className="mt-2"><strong>Password:</strong> password123</p>
               </div>
             </div>
