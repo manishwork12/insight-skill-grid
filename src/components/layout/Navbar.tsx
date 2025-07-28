@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Bell, LogOut, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -10,9 +11,65 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
+import { NotificationCenter } from '@/components/notifications/NotificationCenter';
+import { Notification } from '@/types';
 
 export function Navbar() {
   const { user, logout } = useAuth();
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      userId: user?.id || '',
+      title: 'Performance Review Scheduled',
+      message: 'Your quarterly performance review has been scheduled for next week.',
+      type: 'assessment',
+      date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      read: false,
+    },
+    {
+      id: '2',
+      userId: user?.id || '',
+      title: 'New Training Available',
+      message: 'React Advanced Patterns training is now available in your learning path.',
+      type: 'learning_path',
+      date: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      read: false,
+    },
+    {
+      id: '3',
+      userId: user?.id || '',
+      title: 'Profile Updated',
+      message: 'Your profile information has been successfully updated.',
+      type: 'status_change',
+      date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+      read: true,
+    },
+    {
+      id: '4',
+      userId: user?.id || '',
+      title: 'Feedback Received',
+      message: 'You have received new feedback from your manager on your recent project.',
+      type: 'feedback',
+      date: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(),
+      read: false,
+    },
+  ]);
+
+  const handleMarkAsRead = (notificationId: string) => {
+    setNotifications(prev => 
+      prev.map(notif => 
+        notif.id === notificationId ? { ...notif, read: true } : notif
+      )
+    );
+  };
+
+  const handleMarkAllAsRead = () => {
+    setNotifications(prev => prev.map(notif => ({ ...notif, read: true })));
+  };
+
+  const handleDeleteNotification = (notificationId: string) => {
+    setNotifications(prev => prev.filter(notif => notif.id !== notificationId));
+  };
 
   if (!user) return null;
 
@@ -27,12 +84,12 @@ export function Navbar() {
 
       <div className="flex items-center gap-4">
         {/* Notifications */}
-        <Button variant="ghost" size="sm" className="relative">
-          <Bell className="h-4 w-4" />
-          <span className="absolute -top-1 -right-1 h-4 w-4 bg-destructive rounded-full text-xs text-destructive-foreground flex items-center justify-center">
-            3
-          </span>
-        </Button>
+        <NotificationCenter
+          notifications={notifications}
+          onMarkAsRead={handleMarkAsRead}
+          onMarkAllAsRead={handleMarkAllAsRead}
+          onDelete={handleDeleteNotification}
+        />
 
         {/* User Menu */}
         <DropdownMenu>

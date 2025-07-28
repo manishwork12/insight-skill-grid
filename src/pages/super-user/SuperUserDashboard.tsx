@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UserPlus, Edit, Trash2, Users, Settings, Shield } from 'lucide-react';
 import { User, UserRole } from '@/types';
 import { useToast } from '@/hooks/use-toast';
+import { UserFilters, FilterState } from '@/components/filters/UserFilters';
 
 // Mock data for demonstration
 const mockUsers: User[] = [
@@ -24,7 +25,57 @@ export default function SuperUserDashboard() {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [newUser, setNewUser] = useState<Partial<User>>({});
+  const [filters, setFilters] = useState<FilterState>({
+    search: '',
+    role: '',
+    department: '',
+    experienceMin: 0,
+    experienceMax: 50,
+    sortBy: 'name',
+    sortOrder: 'asc',
+  });
   const { toast } = useToast();
+
+  // Get unique departments for filter
+  const departments = useMemo(() => 
+    Array.from(new Set(users.map(user => user.department).filter(Boolean))),
+    [users]
+  );
+
+  // Apply filters and sorting
+  const filteredUsers = useMemo(() => {
+    let filtered = users.filter(user => {
+      const matchesSearch = !filters.search || 
+        user.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        user.email.toLowerCase().includes(filters.search.toLowerCase());
+      
+      const matchesRole = !filters.role || user.role === filters.role;
+      const matchesDepartment = !filters.department || user.department === filters.department;
+      const matchesExperience = user.experience >= filters.experienceMin && 
+        user.experience <= filters.experienceMax;
+
+      return matchesSearch && matchesRole && matchesDepartment && matchesExperience;
+    });
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aValue: any = a[filters.sortBy];
+      let bValue: any = b[filters.sortBy];
+
+      if (typeof aValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (filters.sortOrder === 'asc') {
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      } else {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      }
+    });
+
+    return filtered;
+  }, [users, filters]);
 
   const getRoleBadgeVariant = (role: UserRole) => {
     switch (role) {
@@ -85,10 +136,10 @@ export default function SuperUserDashboard() {
   };
 
   const userStats = {
-    total: users.length,
-    employees: users.filter(u => u.role === 'employee').length,
-    trainers: users.filter(u => u.role === 'trainer').length,
-    managers: users.filter(u => u.role === 'manager').length,
+    total: filteredUsers.length,
+    employees: filteredUsers.filter(u => u.role === 'employee').length,
+    trainers: filteredUsers.filter(u => u.role === 'trainer').length,
+    managers: filteredUsers.filter(u => u.role === 'manager').length,
   };
 
   return (
@@ -150,6 +201,13 @@ export default function SuperUserDashboard() {
               </CardContent>
             </Card>
           </div>
+
+          {/* User Filters */}
+          <UserFilters
+            filters={filters}
+            onFiltersChange={setFilters}
+            departments={departments}
+          />
 
           {/* User Management */}
           <Card>
@@ -255,7 +313,7 @@ export default function SuperUserDashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {users.map((user) => (
+                  {filteredUsers.map((user) => (
                     <TableRow key={user.id}>
                       <TableCell className="font-medium">{user.name}</TableCell>
                       <TableCell>{user.email}</TableCell>
