@@ -77,7 +77,6 @@ export default function EmployeeDashboard() {
           <p className="text-muted-foreground">Track your progress and continue learning</p>
         </div>
         <div className="flex items-center gap-3">
-          <StatusBadge status="in-progress" />
           <Button variant="outline" size="sm" onClick={() => setIsProfileOpen(true)}>
             <Edit3 className="mr-2 h-4 w-4" />
             Edit Profile
