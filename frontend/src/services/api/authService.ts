@@ -55,7 +55,10 @@ class AuthService {
 
       if (response.ok) {
         const data = await response.json();
-        return { success: true, user: data.user, token: data.token };
+        // Store token and user data
+        localStorage.setItem('authToken', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        return { success: true, user: data.user, token: data.access_token };
       }
       return { success: false };
     } catch (error) {
@@ -65,17 +68,7 @@ class AuthService {
   }
 
   async logout(): Promise<void> {
-    if (!USE_MOCK_DATA) {
-      try {
-        await fetch(`${API_BASE_URL}/auth/logout`, {
-          method: 'POST',
-          headers: this.getAuthHeaders(),
-        });
-      } catch (error) {
-        console.error('Logout error:', error);
-      }
-    }
-    
+    // Clear local storage
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
   }
@@ -95,7 +88,12 @@ class AuthService {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      const currentUser = this.getCurrentUser();
+      if (!currentUser) {
+        return { success: false };
+      }
+
+      const response = await fetch(`${API_BASE_URL}/employees/${currentUser.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +104,8 @@ class AuthService {
 
       if (response.ok) {
         const data = await response.json();
-        return { success: true, user: data.user };
+        localStorage.setItem('user', JSON.stringify(data));
+        return { success: true, user: data };
       }
       return { success: false };
     } catch (error) {

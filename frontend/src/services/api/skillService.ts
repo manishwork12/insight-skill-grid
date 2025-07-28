@@ -77,39 +77,7 @@ class SkillService {
     }
   }
 
-  async getEmployeeScores(employeeId: string): Promise<Score[]> {
-    if (USE_MOCK_DATA) {
-      return this.getMockScores(employeeId);
-    }
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/employees/${employeeId}/scores`, {
-        headers: this.getAuthHeaders(),
-      });
-      return response.ok ? await response.json() : [];
-    } catch (error) {
-      console.error('Get employee scores error:', error);
-      return [];
-    }
-  }
-
-  async addScore(score: Omit<Score, 'id'>): Promise<Score | null> {
-    if (USE_MOCK_DATA) {
-      return this.mockAddScore(score);
-    }
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/scores`, {
-        method: 'POST',
-        headers: { ...this.getAuthHeaders(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(score),
-      });
-      return response.ok ? await response.json() : null;
-    } catch (error) {
-      console.error('Add score error:', error);
-      return null;
-    }
-  }
 
   // Mock implementations
   private getMockSkills(): Skill[] {
@@ -123,28 +91,7 @@ class SkillService {
     ];
   }
 
-  private getMockScores(employeeId: string): Score[] {
-    return [
-      {
-        id: '1',
-        employeeId,
-        skill: 'JavaScript',
-        score: 85,
-        date: '2024-01-15',
-        trainerId: '2',
-        feedback: 'Good understanding of ES6+ features'
-      },
-      {
-        id: '2',
-        employeeId,
-        skill: 'React',
-        score: 78,
-        date: '2024-01-20',
-        trainerId: '2',
-        feedback: 'Solid component development skills'
-      },
-    ];
-  }
+
 
   private async mockCreateSkill(skillData: Omit<Skill, 'id'>): Promise<Skill> {
     return {
@@ -161,12 +108,7 @@ class SkillService {
     return true;
   }
 
-  private async mockAddScore(scoreData: Omit<Score, 'id'>): Promise<Score> {
-    return {
-      id: Date.now().toString(),
-      ...scoreData,
-    };
-  }
+
 }
 
 export const skillService = new SkillService();
