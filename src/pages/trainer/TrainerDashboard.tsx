@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { SkillRadarChart } from '@/components/charts/SkillRadarChart';
+import { UserFilters } from '@/components/filters/UserFilters';
 import {
   Table,
   TableBody,
@@ -54,7 +55,9 @@ const employees = [
     lastScore: 78,
     readiness: 'in-progress' as const,
     department: 'Engineering',
-    skillFocus: 'React Development'
+    skillFocus: 'React Development',
+    role: 'employee' as const,
+    experience: 3
   },
   {
     id: '2',
@@ -65,7 +68,9 @@ const employees = [
     lastScore: 89,
     readiness: 'ready' as const,
     department: 'Engineering',
-    skillFocus: 'Full Stack'
+    skillFocus: 'Full Stack',
+    role: 'employee' as const,
+    experience: 5
   },
   {
     id: '3',
@@ -76,7 +81,9 @@ const employees = [
     lastScore: 72,
     readiness: 'not-ready' as const,
     department: 'Engineering',
-    skillFocus: 'Backend Development'
+    skillFocus: 'Backend Development',
+    role: 'employee' as const,
+    experience: 2
   }
 ];
 
@@ -90,15 +97,47 @@ const skillData = [
 ];
 
 export default function TrainerDashboard() {
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
   const [feedbackText, setFeedbackText] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>('');
+  const [filters, setFilters] = useState({
+    search: '',
+    role: '',
+    department: '',
+    experienceMin: 0,
+    experienceMax: 0,
+    sortBy: 'name' as 'name' | 'email' | 'experience' | 'department',
+    sortOrder: 'asc' as 'asc' | 'desc'
+  });
 
-  const filteredEmployees = employees.filter(employee =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    employee.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredEmployees = employees
+    .filter(employee => {
+      const matchesSearch = !filters.search || 
+        employee.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        employee.email.toLowerCase().includes(filters.search.toLowerCase());
+      
+      const matchesDepartment = !filters.department || employee.department === filters.department;
+      
+      const matchesExperience = (!filters.experienceMin || employee.experience >= filters.experienceMin) &&
+        (!filters.experienceMax || employee.experience <= filters.experienceMax);
+      
+      return matchesSearch && matchesDepartment && matchesExperience;
+    })
+    .sort((a, b) => {
+      const direction = filters.sortOrder === 'asc' ? 1 : -1;
+      switch (filters.sortBy) {
+        case 'name':
+          return direction * a.name.localeCompare(b.name);
+        case 'email':
+          return direction * a.email.localeCompare(b.email);
+        case 'experience':
+          return direction * (a.experience - b.experience);
+        case 'department':
+          return direction * a.department.localeCompare(b.department);
+        default:
+          return 0;
+      }
+    });
 
   return (
     <div className="p-6 space-y-6">
@@ -225,32 +264,21 @@ export default function TrainerDashboard() {
         </Card>
       </div>
 
+      {/* Filters */}
+      <UserFilters
+        filters={filters}
+        onFiltersChange={setFilters}
+        departments={['Engineering', 'Marketing', 'Sales']}
+      />
+
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Employee List */}
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <CardTitle>Employee Management</CardTitle>
-                  <CardDescription>Track progress and manage assessments</CardDescription>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Search employees..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-9 w-64"
-                    />
-                  </div>
-                  <Button variant="outline" size="sm">
-                    <Filter className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+              <CardTitle>Employee Management</CardTitle>
+              <CardDescription>Track progress and manage assessments</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>

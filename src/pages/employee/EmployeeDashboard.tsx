@@ -7,7 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { ScoreChart } from '@/components/charts/ScoreChart';
 import { SkillRadarChart } from '@/components/charts/SkillRadarChart';
+import { ProfileEditor } from '@/components/profile/ProfileEditor';
 import { useAuth } from '@/contexts/AuthContext';
+import { User } from '@/types';
+import { apiService } from '@/services/apiService';
 import { 
   TrendingUp, 
   Calendar, 
@@ -55,6 +58,15 @@ const learningSteps = [
 export default function EmployeeDashboard() {
   const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(2);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const handleProfileSave = async (updatedUser: User) => {
+    try {
+      await apiService.updateUser(updatedUser);
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+    }
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -66,7 +78,7 @@ export default function EmployeeDashboard() {
         </div>
         <div className="flex items-center gap-3">
           <StatusBadge status="in-progress" />
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => setIsProfileOpen(true)}>
             <Edit3 className="mr-2 h-4 w-4" />
             Edit Profile
           </Button>
@@ -293,6 +305,16 @@ export default function EmployeeDashboard() {
           </Card>
         </div>
       </div>
+
+      {/* Profile Editor */}
+      {user && (
+        <ProfileEditor
+          user={user}
+          isOpen={isProfileOpen}
+          onClose={() => setIsProfileOpen(false)}
+          onSave={handleProfileSave}
+        />
+      )}
     </div>
   );
 }

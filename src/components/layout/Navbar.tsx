@@ -12,7 +12,9 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { NotificationCenter } from '@/components/notifications/NotificationCenter';
-import { Notification } from '@/types';
+import { ProfileEditor } from '@/components/profile/ProfileEditor';
+import { Notification, User as UserType } from '@/types';
+import { apiService } from '@/services/apiService';
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -54,6 +56,7 @@ export function Navbar() {
       read: false,
     },
   ]);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const handleMarkAsRead = (notificationId: string) => {
     setNotifications(prev => 
@@ -69,6 +72,15 @@ export function Navbar() {
 
   const handleDeleteNotification = (notificationId: string) => {
     setNotifications(prev => prev.filter(notif => notif.id !== notificationId));
+  };
+
+  const handleProfileSave = async (updatedUser: UserType) => {
+    try {
+      await apiService.updateUser(updatedUser);
+      // Update the user in context if needed
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+    }
   };
 
   if (!user) return null;
@@ -105,9 +117,9 @@ export function Navbar() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setIsProfileOpen(true)}>
               <User className="mr-2 h-4 w-4" />
-              Profile
+              Edit Profile
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>
@@ -117,6 +129,16 @@ export function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      {/* Profile Editor */}
+      {user && (
+        <ProfileEditor
+          user={user}
+          isOpen={isProfileOpen}
+          onClose={() => setIsProfileOpen(false)}
+          onSave={handleProfileSave}
+        />
+      )}
     </nav>
   );
 }

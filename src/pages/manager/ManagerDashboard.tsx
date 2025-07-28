@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { UserFilters } from '@/components/filters/UserFilters';
 import { 
   BarChart, 
   Bar, 
@@ -50,6 +52,16 @@ const monthlyTrends = [
 ];
 
 export default function ManagerDashboard() {
+  const [filters, setFilters] = useState({
+    search: '',
+    role: '',
+    department: '',
+    experienceMin: 0,
+    experienceMax: 0,
+    sortBy: 'name' as 'name' | 'email' | 'experience' | 'department',
+    sortOrder: 'asc' as 'asc' | 'desc'
+  });
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -59,10 +71,6 @@ export default function ManagerDashboard() {
           <p className="text-muted-foreground">Global overview and team analytics</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" />
-            Filters
-          </Button>
           <Button variant="outline">
             <Calendar className="mr-2 h-4 w-4" />
             Date Range
@@ -136,6 +144,13 @@ export default function ManagerDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Filters */}
+      <UserFilters
+        filters={filters}
+        onFiltersChange={setFilters}
+        departments={['Engineering', 'Marketing', 'Sales', 'HR', 'Finance']}
+      />
 
       {/* Main Analytics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
