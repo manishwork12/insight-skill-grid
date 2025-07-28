@@ -67,7 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     // Use API service for authentication
     try {
-      const { success, user, token } = await apiService.login(email, password);
+      const { success, user, token } = await authService.login(email, password);
       if (success && user) {
         setUser(user);
         localStorage.setItem('currentUser', JSON.stringify(user));

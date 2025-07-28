@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { SkillRadarChart } from '@/components/charts/SkillRadarChart';
-import { UserFilters } from '@/components/filters/UserFilters';
+import { UserFilters, FilterState } from '@/components/filters/UserFilters';
 import {
   Table,
   TableBody,
@@ -100,14 +100,14 @@ export default function TrainerDashboard() {
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
   const [feedbackText, setFeedbackText] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>('');
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<FilterState>({
     search: '',
-    role: 'all' as const,
+    role: '',
     department: '',
     experienceMin: 0,
-    experienceMax: 0,
-    sortBy: 'name' as 'name' | 'email' | 'experience' | 'department',
-    sortOrder: 'asc' as 'asc' | 'desc'
+    experienceMax: 50,
+    sortBy: 'name',
+    sortOrder: 'asc'
   });
 
   const filteredEmployees = employees

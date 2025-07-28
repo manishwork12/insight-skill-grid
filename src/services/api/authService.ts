@@ -89,6 +89,32 @@ class AuthService {
     return localStorage.getItem('authToken');
   }
 
+  async updateProfile(userData: Partial<User>): Promise<{ success: boolean; user?: User }> {
+    if (USE_MOCK_DATA) {
+      return this.mockUpdateProfile(userData);
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...this.getAuthHeaders(),
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return { success: true, user: data.user };
+      }
+      return { success: false };
+    } catch (error) {
+      console.error('Update profile error:', error);
+      return { success: false };
+    }
+  }
+
   private getAuthHeaders(): Record<string, string> {
     const token = this.getToken();
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -101,6 +127,20 @@ class AuthService {
       return { success: true, user, token: 'mock-jwt-token' };
     }
     return { success: false };
+  }
+
+  private async mockUpdateProfile(userData: Partial<User>): Promise<{ success: boolean; user?: User }> {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) {
+      return { success: false };
+    }
+
+    // Simulate profile update
+    const updatedUser = { ...currentUser, ...userData };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    
+    return { success: true, user: updatedUser };
   }
 }
 

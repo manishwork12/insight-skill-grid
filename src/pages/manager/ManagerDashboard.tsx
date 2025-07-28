@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { UserFilters } from '@/components/filters/UserFilters';
+import { UserFilters, FilterState } from '@/components/filters/UserFilters';
 import { 
   BarChart, 
   Bar, 
@@ -52,14 +52,14 @@ const monthlyTrends = [
 ];
 
 export default function ManagerDashboard() {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<FilterState>({
     search: '',
-    role: 'all' as const,
+    role: '',
     department: '',
     experienceMin: 0,
-    experienceMax: 0,
-    sortBy: 'name' as 'name' | 'email' | 'experience' | 'department',
-    sortOrder: 'asc' as 'asc' | 'desc'
+    experienceMax: 50,
+    sortBy: 'name',
+    sortOrder: 'asc'
   });
 
   return (

@@ -14,7 +14,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { NotificationCenter } from '@/components/notifications/NotificationCenter';
 import { ProfileEditor } from '@/components/profile/ProfileEditor';
 import { Notification, User as UserType } from '@/services/api/types';
-import { employeeService } from '@/services/api/employeeService';
+import { authService } from '@/services/api/authService';
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -76,7 +76,7 @@ export function Navbar() {
 
   const handleProfileSave = async (updatedUser: UserType) => {
     try {
-      await apiService.updateUser(updatedUser);
+      await authService.updateProfile(updatedUser);
       // Update the user in context if needed
     } catch (error) {
       console.error('Failed to update profile:', error);

@@ -10,7 +10,7 @@ import { SkillRadarChart } from '@/components/charts/SkillRadarChart';
 import { ProfileEditor } from '@/components/profile/ProfileEditor';
 import { useAuth } from '@/contexts/AuthContext';
 import { User } from '@/services/api/types';
-import { employeeService } from '@/services/api/employeeService';
+import { authService } from '@/services/api/authService';
 import { 
   TrendingUp, 
   Calendar, 
@@ -62,7 +62,7 @@ export default function EmployeeDashboard() {
 
   const handleProfileSave = async (updatedUser: User) => {
     try {
-      await apiService.updateUser(updatedUser);
+      await authService.updateProfile(updatedUser);
     } catch (error) {
       console.error('Failed to update profile:', error);
     }
