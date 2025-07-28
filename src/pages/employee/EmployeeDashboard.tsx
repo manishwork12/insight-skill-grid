@@ -9,8 +9,8 @@ import { ScoreChart } from '@/components/charts/ScoreChart';
 import { SkillRadarChart } from '@/components/charts/SkillRadarChart';
 import { ProfileEditor } from '@/components/profile/ProfileEditor';
 import { useAuth } from '@/contexts/AuthContext';
-import { User } from '@/types';
-import { apiService } from '@/services/apiService';
+import { User } from '@/services/api/types';
+import { employeeService } from '@/services/api/employeeService';
 import { 
   TrendingUp, 
   Calendar, 

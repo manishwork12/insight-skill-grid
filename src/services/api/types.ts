@@ -66,3 +66,23 @@ export interface Assessment {
   trainerId: string;
   feedback?: string;
 }
+
+export interface Skill {
+  id: string;
+  name: string;
+  category: string;
+  description?: string;
+}
+
+// API Response Types
+export interface LoginResponse {
+  success: boolean;
+  user?: User;
+  token?: string;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}

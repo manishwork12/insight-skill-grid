@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User } from '@/types';
+import { User } from '@/services/api/types';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, User as UserIcon } from 'lucide-react';
 

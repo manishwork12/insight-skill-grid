@@ -1,0 +1,71 @@
+[
+  {
+    "id": "1",
+    "email": "john.employee@company.com",
+    "name": "John Smith",
+    "role": "employee",
+    "department": "Engineering",
+    "experience": 3,
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    "skillLevel": "Intermediate",
+    "interviewReadiness": "in-progress",
+    "scores": [
+      {
+        "id": "1",
+        "employeeId": "1",
+        "skill": "JavaScript",
+        "score": 85,
+        "date": "2024-01-15",
+        "trainerId": "2",
+        "feedback": "Good understanding of ES6+ features"
+      },
+      {
+        "id": "2",
+        "employeeId": "1",
+        "skill": "React",
+        "score": 78,
+        "date": "2024-01-20",
+        "trainerId": "2",
+        "feedback": "Solid component development skills"
+      }
+    ],
+    "notifications": [
+      {
+        "id": "1",
+        "userId": "1",
+        "type": "feedback",
+        "title": "New Feedback Received",
+        "message": "You received feedback on your JavaScript assessment",
+        "date": "2024-01-21",
+        "read": false
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "email": "sarah.trainer@company.com",
+    "name": "Sarah Johnson",
+    "role": "trainer",
+    "department": "Training",
+    "experience": 8,
+    "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    "id": "3",
+    "email": "mike.manager@company.com",
+    "name": "Mike Wilson",
+    "role": "manager",
+    "department": "Management",
+    "experience": 12,
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+  },
+  {
+    "id": "4",
+    "email": "admin@company.com",
+    "name": "System Administrator",
+    "role": "super-user",
+    "department": "IT Administration",
+    "experience": 15,
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+  }
+]

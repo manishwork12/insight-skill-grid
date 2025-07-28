@@ -54,7 +54,7 @@ const monthlyTrends = [
 export default function ManagerDashboard() {
   const [filters, setFilters] = useState({
     search: '',
-    role: '',
+    role: 'all' as const,
     department: '',
     experienceMin: 0,
     experienceMax: 0,

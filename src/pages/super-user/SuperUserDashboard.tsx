@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UserPlus, Edit, Trash2, Users, Settings, Shield } from 'lucide-react';
-import { User, UserRole } from '@/types';
+import { User, UserRole } from '@/services/api/types';
 import { useToast } from '@/hooks/use-toast';
 import { UserFilters, FilterState } from '@/components/filters/UserFilters';
 

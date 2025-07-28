@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@/types';
+import { UserRole } from '@/services/api/types';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -28,3 +28,5 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
 
   return <>{children}</>;
 }
+
+export default ProtectedRoute;

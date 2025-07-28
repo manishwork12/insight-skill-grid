@@ -13,8 +13,8 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { NotificationCenter } from '@/components/notifications/NotificationCenter';
 import { ProfileEditor } from '@/components/profile/ProfileEditor';
-import { Notification, User as UserType } from '@/types';
-import { apiService } from '@/services/apiService';
+import { Notification, User as UserType } from '@/services/api/types';
+import { employeeService } from '@/services/api/employeeService';
 
 export function Navbar() {
   const { user, logout } = useAuth();

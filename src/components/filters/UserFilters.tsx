@@ -5,11 +5,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Search, Filter, X, SortAsc, SortDesc } from 'lucide-react';
-import { UserRole } from '@/types';
+import { UserRole } from '@/services/api/types';
 
 export interface FilterState {
   search: string;
-  role: string;
+  role: UserRole | 'all' | '';
   department: string;
   experienceMin: number;
   experienceMax: number;

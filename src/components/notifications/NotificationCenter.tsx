@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Notification } from '@/types';
+import { Notification } from '@/services/api/types';
 import { formatDistanceToNow } from 'date-fns';
 
 interface NotificationCenterProps {
