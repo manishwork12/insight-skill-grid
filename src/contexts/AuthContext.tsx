@@ -38,6 +38,15 @@ const mockUsers: User[] = [
     department: 'Management',
     experience: 12,
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+  },
+  {
+    id: '4',
+    email: 'admin@company.com',
+    name: 'System Administrator',
+    role: 'super-user',
+    department: 'IT Administration',
+    experience: 15,
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
   }
 ];
 

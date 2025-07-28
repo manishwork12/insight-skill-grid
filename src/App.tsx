@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
 import TrainerDashboard from "./pages/trainer/TrainerDashboard";
 import ManagerDashboard from "./pages/manager/ManagerDashboard";
+import SuperUserDashboard from "./pages/super-user/SuperUserDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,8 @@ function DashboardRouter() {
       return <TrainerDashboard />;
     case 'manager':
       return <ManagerDashboard />;
+    case 'super-user':
+      return <SuperUserDashboard />;
     default:
       return <Navigate to="/login" replace />;
   }
