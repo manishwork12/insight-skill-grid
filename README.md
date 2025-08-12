@@ -1,73 +1,65 @@
-# Welcome to your Lovable project
+# ? Employee Skills Tracking Portal
 
-## Project info
+A comprehensive full-stack application for managing employee skills, feedback, training status, and more. This portal supports trainers, managers, and employees with role-based access, filtering, performance tracking, and notifications.
 
-**URL**: https://lovable.dev/projects/e6ac3790-a0ab-470d-9941-82142f34d22e
+---
 
-## How can I edit this code?
+## ? Tech Stack
 
-There are several ways of editing your application.
+### Frontend
+- ? [Vite](https://vitejs.dev/)
+- ?? [React](https://reactjs.org/)
+- ? [TypeScript](https://www.typescriptlang.org/)
+- ? [Tailwind CSS](https://tailwindcss.com/)
+- ? [shadcn/ui](https://ui.shadcn.com/)
 
-**Use Lovable**
+### Backend
+- ? [FastAPI](https://fastapi.tiangolo.com/)
+- ? [SQLAlchemy](https://www.sqlalchemy.org/)
+- ? [Pydantic](https://pydantic-docs.helpmanual.io/)
+- ? [JWT Authentication](https://jwt.io/)
+- ? [Python](https://www.python.org/)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e6ac3790-a0ab-470d-9941-82142f34d22e) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## ?? Local Development Setup
 
-**Use your preferred IDE**
+Make sure Node.js (v18+) and Python (3.8+) are installed. We recommend using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to manage Node.js versions.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Full Stack Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# 1. Clone the repository
+git clone https://github.com/SAIEE12/Employee-Skills-Tracking-Portal.git
 
-Follow these steps:
+# 2. Navigate to the project directory
+cd Employee-Skills-Tracking-Portal
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 3. Setup Backend
+cd backend
+pip install -r requirements.txt
+python3 init_db.py  # Initialize database with sample data
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
+# 4. Setup Frontend (in a new terminal)
+cd ../frontend
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+cp env.example .env  # Configure environment variables
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Frontend Only (Mock Mode)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# 1. Navigate to frontend directory
+cd frontend
 
-**Use GitHub Codespaces**
+# 2. Install dependencies
+npm i
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# 3. Enable mock mode
+echo "VITE_MOCK_MODE=true" > .env
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/e6ac3790-a0ab-470d-9941-82142f34d22e) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# 4. Start the development server
+npm run dev
+```
