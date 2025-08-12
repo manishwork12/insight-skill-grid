@@ -451,6 +451,7 @@ const handleEditUser = async () => {
                           <Button
                             variant="outline"
                             size="sm"
+                            className="text-black-500 hover:bg-red-600 hover:text-white transition-colors duration-300 ease-in-out"
                             onClick={() => handleDeleteUser(user.id)}
                           >
                             <Trash2 className="h-4 w-4" />
