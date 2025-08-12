@@ -214,7 +214,8 @@ const handleEditUser = async () => {
         <TabsContent value="users" className="space-y-6">
           {/* User Statistics */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card>
+            <Card onClick={() => setFilters((prev) => ({ ...prev, role: 'all' }))}
+             className="cursor-pointer hover:bg-gray-200 transition-colors duration-300 ease-in-out transition">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Users</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
@@ -223,7 +224,8 @@ const handleEditUser = async () => {
                 <div className="text-2xl font-bold">{userStats.total}</div>
               </CardContent>
             </Card>
-            <Card>
+            <Card onClick={() => setFilters((prev) => ({ ...prev, role: 'employee' }))}
+              className="cursor-pointer hover:bg-gray-200 transition-colors duration-300 ease-in-out transition">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Employees</CardTitle>
                 <Badge variant="default">{userStats.employees}</Badge>
@@ -232,7 +234,8 @@ const handleEditUser = async () => {
                 <div className="text-2xl font-bold">{userStats.employees}</div>
               </CardContent>
             </Card>
-            <Card>
+            <Card onClick={() => setFilters((prev) => ({ ...prev, role: 'trainer' }))}
+              className="cursor-pointer hover:bg-gray-200 transition-colors duration-300 ease-in-out transition">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Trainers</CardTitle>
                 <Badge variant="secondary">{userStats.trainers}</Badge>
@@ -241,7 +244,8 @@ const handleEditUser = async () => {
                 <div className="text-2xl font-bold">{userStats.trainers}</div>
               </CardContent>
             </Card>
-            <Card>
+            <Card   onClick={() => setFilters((prev) => ({ ...prev, role: 'manager' }))}
+              className="cursor-pointer hover:bg-gray-200 transition-colors duration-300 ease-in-out transition">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Managers</CardTitle>
                 <Badge variant="destructive">{userStats.managers}</Badge>
