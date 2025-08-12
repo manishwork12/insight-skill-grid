@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .core.config import settings
 from .db.base import engine
 from .db import models
-from .api.routes import auth, employees, trainers, skills, scores
+from .api.routes import auth, employees, trainers, skills, scores, managers
 
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
@@ -30,6 +30,7 @@ app.include_router(employees.router, prefix="/api/v1")
 app.include_router(trainers.router, prefix="/api/v1")
 app.include_router(skills.router, prefix="/api/v1")
 app.include_router(scores.router, prefix="/api/v1")
+app.include_router(managers.router, prefix="/api/v1")
 
 @app.get("/")
 def read_root():
